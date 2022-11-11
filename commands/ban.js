@@ -8,7 +8,7 @@ module.exports = {
 			.setName('ban')
 			.setDescription('Bans a user from the server.')
 			.addUserOption(option => option.setName('user').setDescription('The user to ban').setRequired(true))
-			.addStringOption(option => option.setName('reason').setDescription('The reason for banning the user').setRequired(true))
+			.addStringOption(option => option.setName('reason').setDescription('The reason for banning the user').setRequired(false))
 			.setDefaultMemberPermissions(2),
 
 	async execute(interaction) {
@@ -28,10 +28,13 @@ module.exports = {
 						.setTitle("You have been banned")
 						.setDescription("You have been banned from the server **Willunga Waldorf High School**")
 						.setColor(0xbb3727)
-						.addFields(
-							{ name: 'Reason', value: reason },
-							{ name: 'Moderator', value: interaction.user.tag },
-						);
+						.addFields({ name: 'Moderator', value: interaction.user.tag });
+					if(reason){
+						banEmbed.addFields({ name: 'Reason', value: reason });
+					}
+					else {
+						banEmbed.addFields({ name: 'Reason', value: '*' });
+					}
 					user
 						.createDM()
 						.then((channel) => {

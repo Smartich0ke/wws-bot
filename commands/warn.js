@@ -8,7 +8,7 @@ module.exports = {
 			.setName('warn')
 			.setDescription('Warns a user.')
 			.addUserOption(option => option.setName('user').setDescription('The user to warn').setRequired(true))
-			.addStringOption(option => option.setName('reason').setDescription('The reason for warning the user').setRequired(true))
+			.addStringOption(option => option.setName('reason').setDescription('The reason for warning the user').setRequired(false))
 			.setDefaultMemberPermissions(1099511627776),
 
 	async execute(interaction) {
@@ -28,10 +28,15 @@ module.exports = {
 						.setTitle("You have been warned")
 						.setDescription("You have received a warning from the server **Willunga Waldorf High School**")
 						.setColor(0xfbb739)
-						.addFields(
-							{ name: 'Reason', value: reason },
-							{ name: 'Moderator', value: interaction.user.tag },
-						);
+						.setTimestamp()
+						.setFooter({text: 'Infraction ID: #1234'})
+						.addFields({ name: 'Moderator', value: interaction.user.tag });
+					if(reason){
+						warnEmbed.addFields({ name: 'Reason', value: reason });
+					}
+					else {
+						warnEmbed.addFields({ name: 'Reason', value: '*none specified*' });
+					}
 					user
 						.createDM()
 						.then((channel) => {

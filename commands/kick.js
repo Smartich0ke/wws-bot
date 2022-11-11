@@ -8,7 +8,7 @@ module.exports = {
 			.setName('kick')
 			.setDescription('Kicks a user from the server.')
 			.addUserOption(option => option.setName('user').setDescription('The user to kick').setRequired(true))
-			.addStringOption(option => option.setName('reason').setDescription('The reason for kicking the user').setRequired(true))
+			.addStringOption(option => option.setName('reason').setDescription('The reason for kicking the user').setRequired(false))
 			.setDefaultMemberPermissions(2),
 
 	async execute(interaction) {
@@ -28,10 +28,13 @@ module.exports = {
 						.setTitle("You have been kicked")
 						.setDescription("You have been kicked from the server **Willunga Waldorf High School**")
 						.setColor(0xe0702e)
-						.addFields(
-							{ name: 'Reason', value: reason },
-							{ name: 'Moderator', value: interaction.user.tag },
-						);
+						.addFields({ name: 'Moderator', value: interaction.user.tag });
+					if(reason){
+						kickEmbed.addFields({ name: 'Reason', value: reason });
+					}
+					else {
+						kickEmbed.addFields({ name: 'Reason', value: '*' });
+					}
 					user
 						.createDM()
 						.then((channel) => {
