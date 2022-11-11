@@ -6,25 +6,14 @@ const Sequelize = require('sequelize');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-const sequelize = new Sequelize('db_name', 'db_user', 'db_password', {
+
+module.exports.connection = new Sequelize('wwsbotdev', 'root', 'root', {
 	host: 'localhost',
+	port: '3306',
 	dialect: 'mysql',
 	logging: false,
 
 });
-const Infraction = sequelize.define('infractions', {
-	id: {
-		type: Sequelize.INTEGER,
-		autoIncrement: true,
-		primaryKey: true
-	},
-	user: Sequelize.STRING,
-	infraction_type: Sequelize.STRING,
-	reason: Sequelize.STRING,
-
-});
-
-
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -32,7 +21,7 @@ const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
 	const command = require(filePath);
-	client.commands.set(command.data.name, command);
+	client.commands.set(command.name, command);
 }
 
 client.once(Events.ClientReady, () => {
