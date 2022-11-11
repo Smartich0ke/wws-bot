@@ -21,7 +21,7 @@ module.exports = {
 					interaction.reply({ content: "You can't kick yourself.", ephemeral: true });
 				}
 				else if (member.id === clientId) {
-					interaction.reply({ content: "what are you doing. You can't kick the bot.", ephemeral: true });
+					interaction.reply({ content: "what on earth are you doing. You can't kick the bot.", ephemeral: true });
 				}
 				else {
 					const kickEmbed = new EmbedBuilder()
