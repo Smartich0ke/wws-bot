@@ -18,11 +18,16 @@ module.exports = {
                 const userId = user.id;
                 const userImage = user.displayAvatarURL();
                 const userTag = user.tag;
-                const infractions = await Infraction.findAll();
+                const infractions = await Infraction.findAll({
+                    where: {
+                        user: userId
+                    }
+                });
                 const clearAllButton = new ButtonBuilder();
                 clearAllButton
-                .setCustomId('primary')
+                    .setCustomId('clearAllInfractions')
                     .setLabel('Clear all infractions')
+                    .data('user', userId)
                     .setStyle('Danger');
                 const row = new ActionRowBuilder()
                     .addComponents(clearAllButton);
@@ -30,13 +35,18 @@ module.exports = {
                 listEmbed
                 .setAuthor({ name: userTag,  iconURL: userImage })
                 .setTitle('All Infractions');
-                for (let i = 0; i < infractions.length; i++)  {
-                    if(infractions[i].get('reason') == null) {
-                        listEmbed.addFields({ name: '#' + infractions[i].get('id').toString() + ' - **' + infractions[i].get('infraction_type') + '**', value: '*no reason specified*', inline: false });
+                if(infractions.length > 0){
+                    for (let i = 0; i < infractions.length; i++)  {
+                        if(infractions[i].get('reason') == null) {
+                            listEmbed.addFields({ name: '#' + infractions[i].get('id').toString() + ' - **' + infractions[i].get('infraction_type') + '**', value: '*no reason specified*', inline: false });
+                        }
+                        else {
+                        listEmbed.addFields({ name: '#' + infractions[i].get('id').toString() + ' - **' + infractions[i].get('infraction_type') + '**', value: infractions[i].get('reason'), inline: false });
+                        }
                     }
-                    else {
-                    listEmbed.addFields({ name: '#' + infractions[i].get('id').toString() + ' - **' + infractions[i].get('infraction_type') + '**', value: infractions[i].get('reason'), inline: false });
-                    }
+                }
+                else {
+                    listEmbed.setDescription('*No infractions found for ' + userTag + '*');
                 }
                 await interaction.reply({ embeds: [listEmbed], components: [row] });
 			} else {
