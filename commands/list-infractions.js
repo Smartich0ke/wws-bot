@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require('discord.js');
 const Infraction = require(`../models/Infraction`);
 const { clientId } = require('../config.json');
 
@@ -19,6 +19,13 @@ module.exports = {
                 const userImage = user.displayAvatarURL();
                 const userTag = user.tag;
                 const infractions = await Infraction.findAll();
+                const clearAllButton = new ButtonBuilder();
+                clearAllButton
+                .setCustomId('primary')
+                    .setLabel('Clear all infractions')
+                    .setStyle('Danger');
+                const row = new ActionRowBuilder()
+                    .addComponents(clearAllButton);
                 const listEmbed = new EmbedBuilder();
                 listEmbed
                 .setAuthor({ name: userTag,  iconURL: userImage })
@@ -31,7 +38,7 @@ module.exports = {
                     listEmbed.addFields({ name: '#' + infractions[i].get('id').toString() + ' - **' + infractions[i].get('infraction_type') + '**', value: infractions[i].get('reason'), inline: false });
                     }
                 }
-                await interaction.reply({ embeds: [listEmbed] });
+                await interaction.reply({ embeds: [listEmbed], components: [row] });
 			} else {
 				interaction.reply({ content: 'That user isnt in this guild!', ephemeral: true });
 			}
