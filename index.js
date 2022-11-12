@@ -1,11 +1,10 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-const { token, dbType, dbHost, dbPort, dbName, dbUser, dbPassword, dbQueryLogging } = require('./config.json');
 const Sequelize = require('sequelize');
+const { Client, Collection, Events, GatewayIntentBits, User, ModalBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const { token, dbType, dbHost, dbPort, dbName, dbUser, dbPassword, dbQueryLogging } = require('./config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
 
 module.exports.connection = new Sequelize(dbName, dbUser, dbPassword, {
 	host: dbHost,
@@ -30,10 +29,13 @@ for (const file of commandFiles) {
 }
 
 client.once(Events.ClientReady, () => {
-	console.log('Ready!');
+	console.info('WWS-Bot is ready. Logged in as: ' + client.user.tag);
 });
 
 client.on(Events.InteractionCreate, async interaction => {
+	if (interaction.isButton()){
+	interaction.reply(interaction.ge);
+	}
 	if (!interaction.isChatInputCommand()) return;
 
 	const command = client.commands.get(interaction.commandName);
@@ -48,4 +50,6 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
+
 client.login(token);
+module.exports.client = client;
