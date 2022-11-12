@@ -1,17 +1,17 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-const { token } = require('./config.json');
+const { token, dbType, dbHost, dbPort, dbName, dbUser, dbPassword, dbQueryLogging } = require('./config.json');
 const Sequelize = require('sequelize');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 
-module.exports.connection = new Sequelize('wwsbotdev', 'root', 'root', {
-	host: 'localhost',
-	port: '3306',
-	dialect: 'mysql',
-	logging: false,
+module.exports.connection = new Sequelize(dbName, dbUser, dbPassword, {
+	host: dbHost,
+	port: dbPort,
+	dialect: dbType,
+	logging: dbQueryLogging,
 
 });
 client.commands = new Collection();
