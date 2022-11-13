@@ -16,6 +16,7 @@ module.exports = {
                         { name: 'Yo mama', value: 'yo_mama' },
                         { name: 'Dark', value: 'dark' },
                         { name: 'Programming', value: 'programming' },
+                        { name: 'Pun', value: 'pun' },
                     )),
     async execute(interaction) {
         /*
@@ -26,6 +27,7 @@ module.exports = {
          * Yo mama jokes are a type of joke that are often told as a form of insult.
          */
         if (interaction.options.getString('joke_type') === 'yo_mama') {
+            await interaction.deferReply();
             const options = {
                 method: 'GET',
                 url: 'https://api.yomomma.info',
@@ -36,10 +38,10 @@ module.exports = {
                     .setDescription(response.data.joke)
                     .setColor(0xfbb739)
                     .setTimestamp();
-                interaction.reply({ embeds: [jokeEmbed] });
+                interaction.editReply({ embeds: [jokeEmbed] });
                 return;
             }).catch(function (error) {
-                interaction.reply({ content: 'An internal error occurred.', ephemeral: true });
+                interaction.editReply({ content: 'An internal error occurred.', ephemeral: true });
                 console.error(error);
             });
         }
@@ -51,6 +53,7 @@ module.exports = {
          * Dark jokes are a type of joke that are often told as a form of insult. 
          */
         if (interaction.options.getString('joke_type') === 'dark') {
+            await interaction.deferReply();
             const options = {
                 method: 'GET',
                 url: 'https://v2.jokeapi.dev/joke/Dark',
@@ -71,9 +74,44 @@ module.exports = {
                         .setColor(0xfbb739)
                         .setTimestamp();
                 }
-                interaction.reply({ embeds: [jokeEmbed] });
+                interaction.editReply({ embeds: [jokeEmbed] });
             }).catch(function (error) {
-                interaction.reply({ content: 'An internal error occurred.', ephemeral: true });
+                interaction.editReply({ content: 'An internal error occurred.', ephemeral: true });
+                console.error(error);
+            });
+        }
+        /*
+         * --------------------------------------
+         *  Puns
+         * --------------------------------------
+         * Jokes are from jokeapi.dev
+         * Returns a play on words. 
+         */
+        if (interaction.options.getString('joke_type') === 'pun') {
+            await interaction.deferReply();
+            const options = {
+                method: 'GET',
+                url: 'https://v2.jokeapi.dev/joke/Pun',
+            };
+            axios.request(options).then(function (response) {
+                const jokeEmbed = new EmbedBuilder();
+                if (response.data.type === 'single') {
+                    jokeEmbed
+                        .setTitle("Pun")
+                        .setDescription(response.data.joke)
+                        .setColor(0xfbb739)
+                        .setTimestamp();
+                }
+                else {
+                    jokeEmbed
+                        .setTitle("Pun")
+                        .setDescription(response.data.setup + '\n' + response.data.delivery)
+                        .setColor(0xfbb739)
+                        .setTimestamp();
+                }
+                interaction.editReply({ embeds: [jokeEmbed] });
+            }).catch(function (error) {
+                interaction.editReply({ content: 'An internal error occurred.', ephemeral: true });
                 console.error(error);
             });
         }
@@ -85,6 +123,7 @@ module.exports = {
          * Jokes that are only funny to programmers.
          */
         if (interaction.options.getString('joke_type') === 'programming') {
+            await interaction.deferReply();
             const options = {
                 method: 'GET',
                 url: 'https://v2.jokeapi.dev/joke/Programming',
@@ -105,9 +144,9 @@ module.exports = {
                         .setColor(0xfbb739)
                         .setTimestamp();
                 }
-                interaction.reply({ embeds: [jokeEmbed] });
+                interaction.editReply({ embeds: [jokeEmbed] });
             }).catch(function (error) {
-                interaction.reply({ content: 'An internal error occurred.', ephemeral: true });
+                interaction.editReply({ content: 'An internal error occurred.', ephemeral: true });
                 console.error(error);
             });
         }
@@ -119,6 +158,7 @@ module.exports = {
          * Random joke from any category
          */
         if (interaction.options.getString('joke_type') == null) {
+            await interaction.deferReply();
             const options = {
                 method: 'GET',
                 url: 'https://v2.jokeapi.dev/joke/Any',
@@ -139,9 +179,9 @@ module.exports = {
                         .setColor(0xfbb739)
                         .setTimestamp();
                 }
-                interaction.reply({ embeds: [jokeEmbed] });
+                interaction.editReply({ embeds: [jokeEmbed] });
             }).catch(function (error) {
-                interaction.reply({ content: 'An internal error occurred.', ephemeral: true });
+                interaction.editReply({ content: 'An internal error occurred.', ephemeral: true });
                 console.error(error);
             });
         }
