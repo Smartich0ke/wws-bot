@@ -126,16 +126,21 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 	if (interaction.isButton()) {
 		if (interaction.customId.startsWith('clear_infractions_all')) {
-			await Infraction.destroy({
-				where: {
-					user: interaction.customId.substring(22),
-				}
-			});
-			const user = await client.users.fetch(interaction.customId.substring(22));
-			const clearEmbed = new EmbedBuilder();
-			clearEmbed.setTitle('All infractions cleared');
-			clearEmbed.setAuthor({ name: user.tag, iconURL: user.displayAvatarURL() });
-			await interaction.update({ embeds: [clearEmbed], components: [] });
+			if(isAdministrator(interaction.member)) {
+				await Infraction.destroy({
+					where: {
+						user: interaction.customId.substring(22),
+					}
+				});
+				const user = await client.users.fetch(interaction.customId.substring(22));
+				const clearEmbed = new EmbedBuilder();
+				clearEmbed.setTitle('All infractions cleared');
+				clearEmbed.setAuthor({ name: user.tag, iconURL: user.displayAvatarURL() });
+				await interaction.update({ embeds: [clearEmbed], components: [] });
+			}
+			else {
+				interaction.reply({ content: 'You do not have permission to perform this operation.', ephemeral: true });
+			}
 		}
 		if (interaction.customId.startsWith('clear_infractions_one')) {
 			const modal = new ModalBuilder()
