@@ -29,6 +29,17 @@ for (const file of commandFiles) {
 	}
 }
 
+function isAdministrator(member) {
+	let hasPermission = false;
+	for (let i = 0; i <= managementRoles.length; i++) {
+		if (member.roles.cache.some(role => role.name === managementRoles[i])) {
+			hasPermission = true;
+			break;
+		}
+	}
+	return hasPermission;
+}
+
 client.once(Events.ClientReady, () => {
 	console.info('WWS-Bot is ready. Logged in as: ' + client.user.tag);
 });
@@ -39,15 +50,9 @@ client.on(Events.InteractionCreate, async interaction => {
 			const sender = interaction.user;
 			const senderMember = interaction.guild.members.cache.get(sender.id);
 			const userMember = interaction.guild.members.cache.get(interaction.customId.substring(18));
-	
-			let hasPermission = false;
-			for (let i = 0; i <= managementRoles.length; i++) {
-				if (senderMember.roles.cache.some(role => role.name === managementRoles[i])) {
-					hasPermission = true;
-					break;
-				}
-			}
-			if (hasPermission) {
+			
+
+			if (isAdministrator(senderMember)) {
 				const id = interaction.fields.getTextInputValue('infraction_id');
 				const matchingInfractions = await Infraction.findAll({
 					where: {
