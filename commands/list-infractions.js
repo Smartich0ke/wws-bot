@@ -23,13 +23,19 @@ module.exports = {
                         user: userId
                     }
                 });
+                const clearOneButton = new ButtonBuilder();
+                clearOneButton
+                .setCustomId('clear_infractions_one:' + userId)
+                .setLabel('Clear an infraction...') 
+                .setStyle('Primary');
                 const clearAllButton = new ButtonBuilder();
                 clearAllButton
                     .setCustomId('clear_infractions_all:' + userId)
                     .setLabel('Clear all infractions')
                     .setStyle('Danger');
                 const row = new ActionRowBuilder()
-                    .addComponents(clearAllButton);
+                    .addComponents(clearAllButton)
+                    .addComponents(clearOneButton);
                 const listEmbed = new EmbedBuilder();
                 listEmbed
                     .setAuthor({ name: userTag, iconURL: userImage })
