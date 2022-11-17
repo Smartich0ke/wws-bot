@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require('discord.js');
 const Infraction = require(`../models/Infraction`);
-const { clientId } = require('../config.json');
 
 module.exports = {
     data:
