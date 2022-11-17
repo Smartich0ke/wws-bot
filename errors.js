@@ -105,4 +105,27 @@ invalidBooleanError
     .setDescription('The boolean you specified was invalid.')
     .setFooter({ text: 'Error code: WWS406' });
 
-module.exports = { generalError };
+/*
+ * --------------------------------------
+ * Misshaps
+ * --------------------------------------
+ * Missed opportunities. Life wasted
+ * Misshaps aren't quite errors, but they're not quite warnings either.
+ * They don't deserve their own embed, so they're just thrown as a string.
+ * They also don't have their own error code.
+ * 
+ */
+const banBotMisshap = 'You cannot ban the bot. Maybe you should try kicking it instead?';
+const kickBotMisshap = 'You cannot kick the bot. The bot is here to stay. Forever.'; 
+const muteBotMisshap = 'You cannot mute the bot. The bot never talks. It never whispers, never utters a sound. It is a mute bot.';
+const unmuteBotMisshap = 'You cannot unmute the bot.';
+const banSelfMisshap = 'You cannot ban yourself. Maybe you should try to improve yourself instead.';
+const kickSelfMisshap = 'You cannot kick yourself. Maybe you should try taking a break.';
+const muteSelfMisshap = 'You cannot mute yourself. You have been in enough trouble already.';
+const unmuteSelfMisshap = 'You cannot unmute yourself. Youve been in the pipeline, filling in time.';
+const banHigherRoleMisshap = 'You cannot ban a user with a higher role than you.';
+const cannotMisshap = 'You cannot. End of story.';
+
+
+// Now we export all of the errors so we can use them in other files.
+module.exports = { generalError, permissionsError, itemNotFoundError, userNotFoundError, invalidArgumentError, invalidCommandError, invalidChannelError, invalidRoleError, invalidUserError, invalidNumberError, invalidBooleanError, banBotMisshap, kickBotMisshap, muteBotMisshap, unmuteBotMisshap, banSelfMisshap, kickSelfMisshap, muteSelfMisshap, unmuteSelfMisshap, banHigherRoleMisshap, cannotMisshap };
