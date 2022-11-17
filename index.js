@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const Sequelize = require('sequelize');
 const { Client, Collection, Events, GatewayIntentBits, User, ModalBuilder, ActionRowBuilder, ButtonBuilder, EmbedBuilder, TextInputBuilder } = require('discord.js');
-const { token, dbType, dbHost, dbPort, dbName, dbUser, dbPassword, dbQueryLogging, managementRoles } = require('./config.json');
+const { token, dbType, dbHost, dbPort, dbName, dbUser, dbPassword, dbQueryLogging, managementRoles, quoteModerationChannel, quoteChannel } = require('./config.json');
 const { generalError, permissionsError } = require('./errors.js');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -47,6 +47,43 @@ client.once(Events.ClientReady, () => {
 
 client.on(Events.InteractionCreate, async interaction => {
 	if (interaction.isModalSubmit()) {
+		if(interaction.customId === 'submit_quote_modal'){
+			const quote = interaction.fields.getTextInputValue('quote_body');
+			const quoteAuthor = interaction.fields.getTextInputValue('quote_author');
+			let fullQuote = quote;
+			if(quoteAuthor){
+				fullQuote += `\n\n*- ${quoteAuthor}*`;
+			}
+			const channel = client.channels.cache.get(quoteModerationChannel);
+			const embed = new EmbedBuilder()
+			.setTitle('Quote submission')
+			.setDescription(fullQuote)
+			.setColor(0xfbb739);
+
+			const approveButton = new ButtonBuilder()
+			.setLabel('Approve')
+			.setStyle('Success')
+			.setCustomId('approve_quote');
+
+			const denyButton = new ButtonBuilder()
+			.setLabel('Deny')
+			.setStyle('Danger')
+			.setCustomId('deny_quote');
+
+			const row = new ActionRowBuilder();
+			row.addComponents(approveButton, denyButton);
+
+			try {
+				channel.send({embeds: [embed], components: [row]});
+			}
+			catch (error) {
+				console.error(error);
+				interaction.reply({ embeds: [generalError], ephemeral: true });
+				return;
+			}
+			
+			interaction.reply({ content: 'Quote submitted!', ephemeral: true });
+		}
 		if (interaction.customId.startsWith('remove_infraction')) {
 			const sender = interaction.user;
 			const senderMember = interaction.guild.members.cache.get(sender.id);
@@ -126,6 +163,18 @@ client.on(Events.InteractionCreate, async interaction => {
 		}
 	}
 	if (interaction.isButton()) {
+		if (interaction.customId === 'approve_quote') {
+			const quote = interaction.message.embeds[0].description;
+			const channel = client.channels.cache.get(quoteChannel);
+			const quoteEmbed = new EmbedBuilder()
+			.setDescription(quote)
+			.setColor(0xfbb739);
+			channel.send({embeds: [quoteEmbed]});
+			interaction.update({ content: 'Quote approved!', components: [] });
+		}
+		if (interaction.customId === 'deny_quote') {
+			interaction.update({ content: 'Quote denied.', components: [] });
+		}
 		if (interaction.customId.startsWith('clear_infractions_all')) {
 			if(isAdministrator(interaction.member)) {
 				await Infraction.destroy({
@@ -155,6 +204,29 @@ client.on(Events.InteractionCreate, async interaction => {
 
 			const firstActionRow = new ActionRowBuilder().addComponents(IDinput);
 			modal.addComponents(firstActionRow);
+			await interaction.showModal(modal);
+		}
+		if(interaction.customId.startsWith('submit_quote')) {
+				const modal = new ModalBuilder()
+				.setCustomId('submit_quote_modal')
+				.setTitle('Submit a quote');
+				
+			const quoteInput = new TextInputBuilder()
+				.setCustomId('quote_body')
+				.setRequired(true)
+				.setMaxLength(255)
+				.setStyle('Paragraph')
+				.setLabel('Quote');
+			const authorInput = new TextInputBuilder()
+				.setCustomId('quote_author')
+				.setRequired(false)
+				.setMaxLength(100)
+				.setStyle('Short')
+				.setLabel('Author (Optional)');
+			const firstActionRow = new ActionRowBuilder().addComponents(quoteInput);
+			const secondActionRow = new ActionRowBuilder().addComponents(authorInput);
+			modal.addComponents(firstActionRow, secondActionRow);
+			console.log('here');
 			await interaction.showModal(modal);
 		}
 	}
