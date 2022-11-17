@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const Infraction = require(`../models/Infraction`);
 const { clientId } = require('../config.json');
+const { generalError, permissionsError, itemNotFoundError, userNotFoundError, invalidUserError, muteBotMisshap, muteSelfMisshap } = require('../errors.js');
 
 module.exports = {
 	data: 
@@ -24,10 +25,10 @@ module.exports = {
 			const member = interaction.guild.members.cache.get(user.id);
 			if (member) {
 				if (member.id === interaction.user.id) {
-					interaction.editReply({ content: "You can't mute yourself.", ephemeral: true });
+					interaction.editReply({ content: [muteSelfMisshap], ephemeral: true });
 				}
 				else if (member.id === clientId) {
-					interaction.editReply({ content: "what on earth are you doing. You can't mute the bot.", ephemeral: true });
+					interaction.editReply({ content: [muteBotMisshap], ephemeral: true });
 				}
 				else {
 					const muteEmbed = new EmbedBuilder()
@@ -80,10 +81,10 @@ module.exports = {
 						});
 				}
 			} else {
-				interaction.reply({ content: 'That user isnt in this guild!', ephemeral: true });
+				interaction.reply({ embeds: [userNotFoundError], ephemeral: true });
 			}
 		} else {
-			interaction.reply({ content: 'You didnt specify a user to mute.', ephemeral: true });
+			interaction.reply({ content: [invalidUserError], ephemeral: true });
 		}
 	},
 };

@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const Infraction = require(`../models/Infraction`);
 const { clientId } = require('../config.json');
+const { generalError, permissionsError, itemNotFoundError, userNotFoundError, invalidUserError, warnBotMisshap, warnSelfMisshap } = require('../errors.js');
 
 module.exports = {
 	data: 
@@ -18,10 +19,10 @@ module.exports = {
 			const member = interaction.guild.members.cache.get(user.id);
 			if (member) {
 				if (member.id === interaction.user.id) {
-					interaction.reply({ content: "You can't warn yourself.", ephemeral: true });
+					interaction.reply({ content: [warnSelfMisshap], ephemeral: true });
 				}
 				else if (member.id === clientId) {
-					interaction.reply({ content: "what on earth are you doing. You can't warn the bot.", ephemeral: true });
+					interaction.reply({ content: [warnBotMisshap], ephemeral: true });
 				}
 				else {
 					const warnEmbed = new EmbedBuilder()
@@ -61,10 +62,10 @@ module.exports = {
 						});
 				}
 			} else {
-				interaction.reply({ content: 'That user isnt in this guild!', ephemeral: true });
+				interaction.reply({ embeds: [userNotFoundError], ephemeral: true });
 			}
 		} else {
-			interaction.reply({ content: 'You didnt specify a user to warn.', ephemeral: true });
+			interaction.reply({ embeds: [invalidUserError], ephemeral: true });
 		}
 	},
 };

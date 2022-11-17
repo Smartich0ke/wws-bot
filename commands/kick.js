@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const Infraction = require(`../models/Infraction`);
 const { clientId } = require('../config.json');
+const { generalError, permissionsError, itemNotFoundError, userNotFoundError, invalidUserError, kickBotMisshap, kickSelfMisshap } = require('../errors.js');
 
 module.exports = {
 	data: 
@@ -18,10 +19,10 @@ module.exports = {
 			const member = interaction.guild.members.cache.get(user.id);
 			if (member) {
 				if (member.id === interaction.user.id) {
-					interaction.reply({ content: "You can't kick yourself.", ephemeral: true });
+					interaction.reply({ content: [kickSelfMisshap], ephemeral: true });
 				}
 				else if (member.id === clientId) {
-					interaction.reply({ content: "what on earth are you doing. You can't kick the bot.", ephemeral: true });
+					interaction.reply({ content: [kickBotMisshap], ephemeral: true });
 				}
 				else {
 					const kickEmbed = new EmbedBuilder()
@@ -58,15 +59,15 @@ module.exports = {
 								});
 						})
 						.catch(err => {
-							interaction.reply({ content: 'An internal error occurred.', ephemeral: true });
+							interaction.reply({ content: [generalError], ephemeral: true });
 							console.error(err);
 						});
 				}
 			} else {
-				interaction.reply({ content: 'That user isnt in this guild!', ephemeral: true });
+				interaction.reply({ content: [userNotFoundError], ephemeral: true });
 			}
 		} else {
-			interaction.reply({ content: 'You didnt specify a user to kick.', ephemeral: true });
+			interaction.reply({ content: [invalidUserError], ephemeral: true });
 		}
 	},
 };

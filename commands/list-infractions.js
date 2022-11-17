@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require('discord.js');
 const Infraction = require(`../models/Infraction`);
+const { generalError, permissionsError, itemNotFoundError, userNotFoundError, invalidUserError, kickBotMisshap, kickSelfMisshap } = require('../errors.js');
 
 module.exports = {
     data:
@@ -59,10 +60,10 @@ module.exports = {
                 }
                 await interaction.reply({ embeds: [listEmbed], components: [row] });
             } else {
-                interaction.reply({ content: 'That user isnt in this guild!', ephemeral: true });
+                interaction.reply({ embeds: [userNotFoundError], ephemeral: true });
             }
         } else {
-            interaction.reply({ content: 'You didnt specify a user.', ephemeral: true });
+            interaction.reply({ embeds: [invalidUserError], ephemeral: true });
         }
     },
 };

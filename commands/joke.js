@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require('discord.js');
 const Infraction = require(`../models/Infraction`);
 const { clientId } = require('../config.json');
+const { generalError, permissionsError, itemNotFoundError, userNotFoundError, invalidUserError, banBotMisshap, banSelfMisshap } = require('../errors.js');
 const axios = require("axios");
 
 module.exports = {
@@ -41,7 +42,7 @@ module.exports = {
                 interaction.editReply({ embeds: [jokeEmbed] });
                 return;
             }).catch(function (error) {
-                interaction.editReply({ content: 'An internal error occurred.', ephemeral: true });
+                interaction.editReply({ embeds: [generalError], ephemeral: true });
                 console.error(error);
             });
         }
@@ -76,7 +77,7 @@ module.exports = {
                 }
                 interaction.editReply({ embeds: [jokeEmbed] });
             }).catch(function (error) {
-                interaction.editReply({ content: 'An internal error occurred.', ephemeral: true });
+                interaction.editReply({ embeds: [generalError], ephemeral: true });
                 console.error(error);
             });
         }
@@ -111,7 +112,7 @@ module.exports = {
                 }
                 interaction.editReply({ embeds: [jokeEmbed] });
             }).catch(function (error) {
-                interaction.editReply({ content: 'An internal error occurred.', ephemeral: true });
+                interaction.editReply({embeds: [generalError], ephemeral: true });
                 console.error(error);
             });
         }
@@ -146,7 +147,7 @@ module.exports = {
                 }
                 interaction.editReply({ embeds: [jokeEmbed] });
             }).catch(function (error) {
-                interaction.editReply({ content: 'An internal error occurred.', ephemeral: true });
+                interaction.editReply({ embeds: [generalError], ephemeral: true });
                 console.error(error);
             });
         }
@@ -181,7 +182,7 @@ module.exports = {
                 }
                 interaction.editReply({ embeds: [jokeEmbed] });
             }).catch(function (error) {
-                interaction.editReply({ content: 'An internal error occurred.', ephemeral: true });
+                interaction.editReply({ embeds: [generalError], ephemeral: true });
                 console.error(error);
             });
         }

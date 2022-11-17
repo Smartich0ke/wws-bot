@@ -3,6 +3,7 @@ const path = require('node:path');
 const Sequelize = require('sequelize');
 const { Client, Collection, Events, GatewayIntentBits, User, ModalBuilder, ActionRowBuilder, ButtonBuilder, EmbedBuilder, TextInputBuilder } = require('discord.js');
 const { token, dbType, dbHost, dbPort, dbName, dbUser, dbPassword, dbQueryLogging, managementRoles } = require('./config.json');
+const { generalError, permissionsError } = require('./errors.js');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -120,7 +121,7 @@ client.on(Events.InteractionCreate, async interaction => {
 				}
 			}
 			else {
-				interaction.reply({ content: 'You do not have permission to perform this operation.', ephemeral: true });
+				interaction.reply({ content: [permissionsError], ephemeral: true });
 			}
 		}
 	}
@@ -139,7 +140,7 @@ client.on(Events.InteractionCreate, async interaction => {
 				await interaction.update({ embeds: [clearEmbed], components: [] });
 			}
 			else {
-				interaction.reply({ content: 'You do not have permission to perform this operation.', ephemeral: true });
+				interaction.reply({ embeds: [permissionsError], ephemeral: true });
 			}
 		}
 		if (interaction.customId.startsWith('clear_infractions_one')) {
@@ -167,7 +168,7 @@ client.on(Events.InteractionCreate, async interaction => {
 		await command.execute(interaction);
 	} catch (error) {
 		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+		await interaction.reply({ embeds: [generalError] , ephemeral: true });
 	}
 });
 
