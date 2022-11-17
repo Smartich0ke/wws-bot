@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const Infraction = require(`../models/Infraction`);
 const { clientId } = require('../config.json');
-const { generalError, permissionsError, itemNotFoundError, userNotFoundError, invalidUserError, kickBotMisshap, kickSelfMisshap } = require('../errors.js');
+const { generalError, userNotFoundError, invalidUserError, kickBotMisshap, kickSelfMisshap } = require('../errors.js');
 
 module.exports = {
 	data: 

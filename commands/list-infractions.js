@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require('discord.js');
 const Infraction = require(`../models/Infraction`);
-const { generalError, permissionsError, itemNotFoundError, userNotFoundError, invalidUserError, kickBotMisshap, kickSelfMisshap } = require('../errors.js');
+const { userNotFoundError, invalidUserError } = require('../errors.js');
 
 module.exports = {
     data:

@@ -1,7 +1,5 @@
-const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require('discord.js');
-const Infraction = require(`../models/Infraction`);
-const { clientId } = require('../config.json');
-const { generalError, permissionsError, itemNotFoundError, userNotFoundError, invalidUserError, banBotMisshap, banSelfMisshap } = require('../errors.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { generalError } = require('../errors.js');
 const axios = require("axios");
 
 module.exports = {
