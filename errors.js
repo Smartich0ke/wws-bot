@@ -109,7 +109,7 @@ invalidBooleanError
  * --------------------------------------
  * Misshaps
  * --------------------------------------
- * Missed opportunities. Life wasted
+ * Missed opportunities. Life wasted.
  * Misshaps aren't quite errors, but they're not quite warnings either.
  * They don't deserve their own embed, so they're just thrown as a string.
  * They also don't have their own error code.
@@ -124,8 +124,10 @@ const kickSelfMisshap = 'You cannot kick yourself. Maybe you should try taking a
 const muteSelfMisshap = 'You cannot mute yourself. You have been in enough trouble already.';
 const unmuteSelfMisshap = 'You cannot unmute yourself. Youve been in the pipeline, filling in time.';
 const banHigherRoleMisshap = 'You cannot ban a user with a higher role than you.';
+const warnBotMisshap = 'You cannot warn the bot. The bot is perfect. It is flawless. It is a bot.';
+const warnSelfMisshap = 'You cannot warn yourself.';
 const cannotMisshap = 'You cannot. End of story.';
 
 
 // Now we export all of the errors so we can use them in other files.
-module.exports = { generalError, permissionsError, itemNotFoundError, userNotFoundError, invalidArgumentError, invalidCommandError, invalidChannelError, invalidRoleError, invalidUserError, invalidNumberError, invalidBooleanError, banBotMisshap, kickBotMisshap, muteBotMisshap, unmuteBotMisshap, banSelfMisshap, kickSelfMisshap, muteSelfMisshap, unmuteSelfMisshap, banHigherRoleMisshap, cannotMisshap };
+module.exports = { generalError, permissionsError, itemNotFoundError, userNotFoundError, invalidArgumentError, invalidCommandError, invalidChannelError, invalidRoleError, invalidUserError, invalidNumberError, invalidBooleanError, banBotMisshap, kickBotMisshap, muteBotMisshap, unmuteBotMisshap, banSelfMisshap, kickSelfMisshap, muteSelfMisshap, unmuteSelfMisshap, banHigherRoleMisshap, cannotMisshap, warnBotMisshap, warnSelfMisshap };
