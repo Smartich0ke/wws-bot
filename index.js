@@ -14,8 +14,10 @@ module.exports.connection = new Sequelize(dbName, dbUser, dbPassword, {
 	logging: dbQueryLogging,
 
 });
+const Infraction = require('./models/Infraction.js');
+const Quote = require('./models/Quote');
+
 client.commands = new Collection();
-const Infraction = require('./models/Infraction');
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
@@ -54,10 +56,18 @@ client.on(Events.InteractionCreate, async interaction => {
 			if(quoteAuthor){
 				fullQuote += `\n\n*- ${quoteAuthor}*`;
 			}
+			const quoteRecord = Quote.build({
+				user: interaction.user.id,
+				quote: quote,
+				author: quoteAuthor,
+				approvals: 0,
+			});
+			quoteRecord.save();
 			const channel = client.channels.cache.get(quoteModerationChannel);
 			const embed = new EmbedBuilder()
 			.setTitle('Quote submission')
 			.setDescription(fullQuote)
+			.setAuthor({ name: 'from ' + interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
 			.setColor(0xfbb739);
 
 			const approveButton = new ButtonBuilder()
@@ -167,6 +177,7 @@ client.on(Events.InteractionCreate, async interaction => {
 			const quote = interaction.message.embeds[0].description;
 			const channel = client.channels.cache.get(quoteChannel);
 			const quoteEmbed = new EmbedBuilder()
+			.setAuthor({ name: interaction.message.embeds[0].author.name, iconURL: interaction.message.embeds[0].author.iconURL })
 			.setDescription(quote)
 			.setColor(0xfbb739);
 			channel.send({embeds: [quoteEmbed]});
