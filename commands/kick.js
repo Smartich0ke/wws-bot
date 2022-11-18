@@ -19,10 +19,10 @@ module.exports = {
 			const member = interaction.guild.members.cache.get(user.id);
 			if (member) {
 				if (member.id === interaction.user.id) {
-					interaction.reply({ content: [kickSelfMisshap], ephemeral: true });
+					interaction.reply({ content: kickSelfMisshap, ephemeral: true });
 				}
 				else if (member.id === clientId) {
-					interaction.reply({ content: [kickBotMisshap], ephemeral: true });
+					interaction.reply({ content: kickBotMisshap, ephemeral: true });
 				}
 				else {
 					const kickEmbed = new EmbedBuilder()

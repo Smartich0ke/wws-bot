@@ -25,10 +25,10 @@ module.exports = {
 			const member = interaction.guild.members.cache.get(user.id);
 			if (member) {
 				if (member.id === interaction.user.id) {
-					interaction.editReply({ content: [muteSelfMisshap], ephemeral: true });
+					interaction.editReply({ content: muteSelfMisshap, ephemeral: true });
 				}
 				else if (member.id === clientId) {
-					interaction.editReply({ content: [muteBotMisshap], ephemeral: true });
+					interaction.editReply({ content: muteBotMisshap, ephemeral: true });
 				}
 				else {
 					const muteEmbed = new EmbedBuilder()
