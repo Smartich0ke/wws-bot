@@ -10,5 +10,24 @@
 	"dbUser": "database-user",
 	"dbPassword": "database-user-password",
 
-    "dbQueryLogging": false
+	"quoteChannel": "quote-channel-id",
+	"quoteModerationChannel": "quote-moderation-channel-id",
+
+	"electiveRoles": {
+		"art_elective": "1234",
+		"music_elective": "1234",
+		"drama_elective": "1234",
+		"tech_elective": "1234",
+		"english_elective": "1234",
+		"pe_elective": "1234",
+		"electronics_elective": "1234",
+		"spanish_elective": "1234",
+		"radio_elective": "1234",
+		"literature_elective": "1234",
+		"cookings_elective": "1234"
+	},
+
+    "dbQueryLogging": false,
+
+	"managementRoles" : ["Administrator", "Moderator"]
 }
