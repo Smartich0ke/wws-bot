@@ -11,7 +11,7 @@ module.exports = {
 			.setDescription('Bans a user from the server.')
 			.addUserOption(option => option.setName('user').setDescription('The user to ban').setRequired(true))
 			.addStringOption(option => option.setName('reason').setDescription('The reason for banning the user').setRequired(false))
-			.setDefaultMemberPermissions(2),
+			.setDefaultMemberPermissions(4),
 
 	async execute(interaction) {
 		logger.interaction('Executing command /ban for: ' + interaction.user.tag, "COMMAND");

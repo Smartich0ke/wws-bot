@@ -9,7 +9,7 @@ module.exports = {
             .setName('list-infractions')
             .setDescription('List a users infractions')
             .addUserOption(option => option.setName('user').setDescription('The user to list').setRequired(true))
-            .setDefaultMemberPermissions(2),
+            .setDefaultMemberPermissions(4),
 
     async execute(interaction) {
         logger.interaction('Executing command /list-infractions for: ' + interaction.user.tag, "COMMAND");

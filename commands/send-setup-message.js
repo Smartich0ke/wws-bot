@@ -15,7 +15,7 @@ module.exports = {
                         { name: 'Elective Selection', value: 'elective_selection' },
                     ))
 			.addChannelOption(option => option.setName('channel').setDescription('The channel to send the message in').setRequired(false))
-			.setDefaultMemberPermissions(2),
+			.setDefaultMemberPermissions(8),
 
 	async execute(interaction) {
         logger.interaction('Executing command /send-setup-message for: ' + interaction.user.tag, "COMMAND");
