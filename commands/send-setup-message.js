@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, SelectMenuBuilder } = require('discord.js');
+const { logger } = require('../index.js');
 
 module.exports = {
 	data: 
@@ -17,6 +18,7 @@ module.exports = {
 			.setDefaultMemberPermissions(2),
 
 	async execute(interaction) {
+        logger.interaction('Executing command /send-setup-message for: ' + interaction.user.tag, "COMMAND");
         if(interaction.options.getString('message') === 'quote_submission'){
             const channel = interaction.options.getChannel('channel');
             let channelToSend = interaction.channel;
@@ -61,6 +63,7 @@ module.exports = {
                 { label: 'Spanish Elective', value: 'language_elective', description: ' ', emoji: { name: '🇪🇸', } },
                 { label: 'Radio Elective', value: 'radio_elective', description: ' ', emoji: { name: '📻', } },
                 { label: 'literature Elective', value: 'literature_elective', description: ' ', emoji: { name: '📚', } },
+                { label: 'Tech Elective', value: 'tech_elective', description: ' ', emoji: { name: '🔨', } },
                 { label: 'Cooking Elective', value: 'cooking_elective', description: ' ', emoji: { name: '👩🏽‍🍳', } }
             ]);
 

@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const Infraction = require(`../models/Infraction`);
 const { clientId } = require('../config.json');
 const { generalError, userNotFoundError, invalidUserError, kickBotMisshap, kickSelfMisshap } = require('../errors.js');
+const { logger } = require('../index.js');
 
 module.exports = {
 	data: 
@@ -13,6 +14,7 @@ module.exports = {
 			.setDefaultMemberPermissions(2),
 
 	async execute(interaction) {
+		logger.interaction('Executing command /kick for: ' + interaction.user.tag, "COMMAND");
 		const user = interaction.options.getUser('user');
 		const reason = interaction.options.getString('reason');
 		if (user) {

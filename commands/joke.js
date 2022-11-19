@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { generalError } = require('../errors.js');
 const axios = require("axios");
+const { logger } = require('../index.js');
 
 module.exports = {
     data:
@@ -18,6 +19,7 @@ module.exports = {
                         { name: 'Pun', value: 'pun' },
                     )),
     async execute(interaction) {
+        logger.interaction('Executing command /joke for: ' + interaction.user.tag, "COMMAND");
         /*
          * --------------------------------------
          *  Yo Mama Jokes

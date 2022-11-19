@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const Infraction = require(`../models/Infraction`);
 const { clientId } = require('../config.json');
 const { userNotFoundError, invalidUserError, muteBotMisshap, muteSelfMisshap } = require('../errors.js');
+const { logger } = require('../index.js');
 
 module.exports = {
 	data: 
@@ -18,6 +19,7 @@ module.exports = {
 			.setDefaultMemberPermissions(1099511627776),
 
 	async execute(interaction) {
+		logger.interaction('Executing command /mute for: ' + interaction.user.tag, "COMMAND");
 		interaction.deferReply();
 		const user = interaction.options.getUser('user');
 		const reason = interaction.options.getString('reason');

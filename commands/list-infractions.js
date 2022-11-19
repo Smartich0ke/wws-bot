@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require('discord.js');
 const Infraction = require(`../models/Infraction`);
 const { userNotFoundError, invalidUserError } = require('../errors.js');
+const { logger } = require('../index.js');
 
 module.exports = {
     data:
@@ -11,6 +12,7 @@ module.exports = {
             .setDefaultMemberPermissions(2),
 
     async execute(interaction) {
+        logger.interaction('Executing command /list-infractions for: ' + interaction.user.tag, "COMMAND");
         const user = interaction.options.getUser('user');
         if (user) {
             const member = interaction.guild.members.cache.get(user.id);
