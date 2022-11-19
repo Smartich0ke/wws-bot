@@ -301,7 +301,7 @@ client.on(Events.InteractionCreate, async interaction => {
 			const user = await client.users.fetch(interaction.user.id);
 			const member = await interaction.guild.members.fetch(user);
 			const electives = new Map(Object.entries(electiveRoles));
-			const electiveRole = await client.guilds.cache.get(guildId).roles.fetch(electives.get(selected));
+			const electiveRole = await client.guilds.cache.get(guildId).roles.fetch(electives.get(selected)).catch(console.error);
 			electives.forEach(async (value, key) => {
 				const role = await client.guilds.cache.get(guildId).roles.fetch(value);
 				if(role) {
