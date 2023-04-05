@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const Sequelize = require('sequelize');
+// eslint-disable-next-line no-unused-vars
 const { Client, Collection, Events, GatewayIntentBits, User, ModalBuilder, ActionRowBuilder, ButtonBuilder, EmbedBuilder, TextInputBuilder } = require('discord.js');
 const { token, dbType, dbHost, dbPort, dbName, dbUser, dbPassword, dbQueryLogging, managementRoles, quoteModerationChannel, quoteChannel, electiveRoles, guildId } = require('./config.json');
 const { generalError, permissionsError } = require('./errors.js');
@@ -293,7 +294,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	////////////////////////////
 	//SELECTION MENU HANDLING://
 	////////////////////////////
-	if(interaction.isSelectMenu()) {
+	if(interaction.isStringSelectMenu()) {
 
 		//Elective selection menu:
 		if(interaction.customId === 'elective_selection_menu') {
@@ -302,6 +303,7 @@ client.on(Events.InteractionCreate, async interaction => {
 			const member = await interaction.guild.members.fetch(user);
 			const electives = new Map(Object.entries(electiveRoles));
 			const electiveRole = await client.guilds.cache.get(guildId).roles.fetch(electives.get(selected)).catch(console.error);
+			// eslint-disable-next-line no-unused-vars
 			electives.forEach(async (value, key) => {
 				const role = await client.guilds.cache.get(guildId).roles.fetch(value);
 				if(role) {
