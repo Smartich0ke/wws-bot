@@ -13,7 +13,7 @@
     "artichokes-logger": "^1.0.2",
     "axios": "^1.1.3",
     "chalk": "^5.1.2",
-    "discord.js": "^14.6.0",
+    "discord.js": "^14.9.0",
     "mysql2": "^2.3.3",
     "sequelize": "^6.25.5"
   },
