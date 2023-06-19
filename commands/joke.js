@@ -57,7 +57,7 @@ module.exports = {
             await interaction.deferReply();
             const options = {
                 method: 'GET',
-                url: 'https://v2.jokeapi.dev/joke/Dark',
+                url: 'https://v2.jokeapi.dev/joke/Dark?blacklistFlags=nsfw,religious,racist,sexist',
             };
             axios.request(options).then(function (response) {
                 const jokeEmbed = new EmbedBuilder();
@@ -92,7 +92,7 @@ module.exports = {
             await interaction.deferReply();
             const options = {
                 method: 'GET',
-                url: 'https://v2.jokeapi.dev/joke/Pun',
+                url: 'https://v2.jokeapi.dev/joke/Pun?blacklistFlags=nsfw,religious,racist,sexist',
             };
             axios.request(options).then(function (response) {
                 const jokeEmbed = new EmbedBuilder();
@@ -127,7 +127,7 @@ module.exports = {
             await interaction.deferReply();
             const options = {
                 method: 'GET',
-                url: 'https://v2.jokeapi.dev/joke/Programming',
+                url: 'https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,racist,sexist',
             };
             axios.request(options).then(function (response) {
                 const jokeEmbed = new EmbedBuilder();
@@ -162,7 +162,7 @@ module.exports = {
             await interaction.deferReply();
             const options = {
                 method: 'GET',
-                url: 'https://v2.jokeapi.dev/joke/Any',
+                url: 'https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,racist,sexist',
             };
             axios.request(options).then(function (response) {
                 const jokeEmbed = new EmbedBuilder();
